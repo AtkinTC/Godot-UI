@@ -6,7 +6,7 @@ var layer_key : String
 #var parent_layer : LayerNode
 var focused : bool = false
 
-var depth: int = 1
+var depth: int = 0
 
 var element_container
 
@@ -62,7 +62,7 @@ func set_depth(_depth: int):
 
 func update_back_button():
 	if(back_button):
-		if(depth == 1):
+		if(depth == 0):
 			back_button.disabled = true
 			back_button.visible = false
 		else:
@@ -90,59 +90,14 @@ func set_as_background(display_depth: int):
 		add_child(background_layer)
 	background_layer.visible = true
 
-func move_to_background():
-	#self.visible = false
-	self.position -= Vector2(35,35)
-	
-	if(!background_layer):
-		background_layer = background_layer_scene.instantiate()
-		background_layer.set_display_title(display_title)
-		add_child(background_layer)
-	background_layer.visible = true
-	
-	var parent_layer_key : String = LayerManager.get_layer_parent_key_from_key(layer_key)
-	var parent_layer : LayerNode = LayerManager.get_layer_node_from_key(parent_layer_key)
-	if(parent_layer):
-		parent_layer.move_to_background()
-
-func return_from_background():
-	#self.visible = true
-	self.position += Vector2(35,35)
-	
-	if(background_layer):
-		background_layer.visible = false
-	
-	var parent_layer_key : String = LayerManager.get_layer_parent_key_from_key(layer_key)
-	var parent_layer : LayerNode = LayerManager.get_layer_node_from_key(parent_layer_key)
-	if(parent_layer):
-		parent_layer.return_from_background()
-
 func open_child_layer(child_layer_key):
-	var child_layer = LayerManager.get_layer_node_from_key(child_layer_key)
-	if(child_layer):
-		var viewport: Viewport = get_viewport()
-		var texture: Texture2D = get_viewport().get_texture()
-		var image: Image = get_viewport().get_texture().get_image()
-		child_layer.set_background_image(image)
-		child_layer.visible = true
-		
-		move_to_background()
+	LayerManager.focus_layer(child_layer_key)
 
 func close_child_layers():
-	var child_layer_keys : Array = LayerManager.get_layer_child_keys_from_key(layer_key)
-	
-	for child_layer_key in child_layer_keys:
-		var child_layer : LayerNode = LayerManager.get_layer_node_from_key(child_layer_key)
-		if(child_layer):
-			child_layer.visible = false
-			
-	return_from_background()
+	LayerManager.focus_layer(layer_key)
 
 func _on_back_button_pressed():
 	var parent_layer_key : String = LayerManager.get_layer_parent_key_from_key(layer_key)
 	var parent_layer : LayerNode = LayerManager.get_layer_node_from_key(parent_layer_key)
 	if(parent_layer):
 		parent_layer.close_child_layers()
-
-#func _process(delta):
-#	self.position += Vector2(0.1,0.1)

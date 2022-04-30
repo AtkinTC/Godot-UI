@@ -13,6 +13,9 @@ var layer_types := {
 }
 
 var layers_dict  := {
+	"root" : {
+		"display_title" : "root"
+	},
 	"layer_1" : {
 		"display_title" : "Layer 1",
 		"child_layers" : ["layer_2A", "layer_2B", "layer_2C"],
@@ -51,12 +54,12 @@ var layer_nodes := {}
 var layer_tabs := {}
 
 var layers_graph := {}
-var root_layer : String
+var root_layer_key := "root"
 
 func assemble_layers_data():
 	layers_graph = {}
-	root_layer = ""
-	var potential_root_layers := layers_dict.keys()
+	var potential_top_layers := layers_dict.keys()
+	potential_top_layers.erase(root_layer_key)
 	
 	# graph out connections between layers
 	for layer_key in layers_dict:
@@ -66,16 +69,21 @@ func assemble_layers_data():
 		layers_graph[layer_key] = layer
 		
 		for child_key in layer["child_layers"]:
-			potential_root_layers.erase(child_key)
+			potential_top_layers.erase(child_key)
 			var child_layer = layers_graph.get(child_key, {})
 			child_layer["parent_layer"] = layer_key
 			layers_graph[child_key] = child_layer
 	
-	assert(potential_root_layers.size() == 1) # There must only be one root layer
-	root_layer = potential_root_layers[0]
+	var root : Dictionary = layers_graph.get(root_layer_key, {})
+	root["child_layers"] = potential_top_layers
+	root["parent_layer"] = ""
+	root["depth"] = 0
+	layers_graph[root_layer_key] = root
 	
-	layers_graph[root_layer]["depth"] = 1
-	var layer_stack := [root_layer]
+	for child_key in potential_top_layers:
+		layers_graph[child_key]["parent_layer"] = root_layer_key
+	
+	var layer_stack := [root_layer_key]
 	while layer_stack.size() > 0:
 		var layer_key : String = layer_stack.pop_back()
 		var depth : int = layers_graph[layer_key]["depth"]
@@ -92,7 +100,7 @@ func assemble_layer_nodes(root_node):
 		root_node.add_child(layer)
 		layer_nodes[layer_key] = layer
 		
-		if(layer_key != root_layer):
+		if(layer_key != root_layer_key):
 			layer.visible = false
 		
 		for child_key in layers_graph[layer_key]["child_layers"]:
@@ -102,7 +110,7 @@ func assemble_layer_nodes(root_node):
 			child_element.set_child_layer_key(child_key)
 
 func assemble_layer_tabs(root_node):
-	var layer_stack := [root_layer]
+	var layer_stack : Array = layers_graph[root_layer_key]["child_layers"]
 	while layer_stack.size() > 0:
 		var layer_key : String = layer_stack.pop_front()
 		
