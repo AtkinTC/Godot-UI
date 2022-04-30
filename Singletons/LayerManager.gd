@@ -113,6 +113,14 @@ func assemble_layer_nodes(root_node):
 			child_element.set_child_layer_key(child_key)
 
 func assemble_layer_tabs(root_node):
+	# root tab - special case
+	var root_tab: LayerTab = layer_tab_scene.instantiate()
+	root_tab.set_display_title(layers_dict[root_layer_key]["display_title"])
+	root_tab.set_layer_key(root_layer_key)
+	layer_tabs[root_layer_key] = root_tab
+	root_node.add_child(root_tab)
+	
+	# build tab tree
 	var layer_stack : Array = layers_graph[root_layer_key]["child_layers"]
 	while layer_stack.size() > 0:
 		var layer_key : String = layer_stack.pop_front()
