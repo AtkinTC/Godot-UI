@@ -1,0 +1,110 @@
+[gd_scene load_steps=7 format=3 uid="uid://6gts28x1l7cp"]
+
+[ext_resource type="Script" path="res://Scripts/LayersRoot.gd" id="1_a8s18"]
+[ext_resource type="Script" path="res://Scripts/main.gd" id="1_e2nrf"]
+[ext_resource type="Script" path="res://Scenes/UIScenes/TextDisplayPanel.gd" id="1_oakir"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8fcab"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ptbka"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4cpph"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource( "1_e2nrf" )
+
+[node name="Overlay" type="Control" parent="."]
+minimum_size = Vector2(1280, 720)
+offset_right = 1280.0
+offset_bottom = 720.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_custom_anchors = false
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Overlay"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_layout_mode = 1
+metadata/_edit_use_custom_anchors = false
+
+[node name="SubViewport" type="SubViewport" parent="Overlay/SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+
+[node name="LayersRoot" type="Node2D" parent="Overlay/SubViewportContainer/SubViewport"]
+position = Vector2(640, 360)
+script = ExtResource( "1_a8s18" )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Overlay"]
+top_level = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="TopBar" type="PanelContainer" parent="Overlay/VBoxContainer"]
+minimum_size = Vector2(0, 70)
+offset_right = 1280.0
+offset_bottom = 70.0
+theme_override_styles/panel = SubResource( "StyleBoxFlat_8fcab" )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Overlay/VBoxContainer"]
+offset_top = 74.0
+offset_right = 1280.0
+offset_bottom = 720.0
+size_flags_vertical = 3
+
+[node name="PanelLeft" type="PanelContainer" parent="Overlay/VBoxContainer/HBoxContainer"]
+minimum_size = Vector2(200, 0)
+offset_right = 200.0
+offset_bottom = 646.0
+theme_override_styles/panel = SubResource( "StyleBoxFlat_ptbka" )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Overlay/VBoxContainer/HBoxContainer/PanelLeft"]
+offset_right = 200.0
+offset_bottom = 646.0
+theme_override_constants/separation = 2
+
+[node name="Filler" type="Control" parent="Overlay/VBoxContainer/HBoxContainer"]
+offset_left = 204.0
+offset_right = 1076.0
+offset_bottom = 646.0
+size_flags_horizontal = 3
+metadata/_edit_lock_ = true
+
+[node name="PanelRight" type="PanelContainer" parent="Overlay/VBoxContainer/HBoxContainer"]
+minimum_size = Vector2(200, 0)
+offset_left = 1080.0
+offset_right = 1280.0
+offset_bottom = 646.0
+theme_override_styles/panel = SubResource( "StyleBoxFlat_4cpph" )
+
+[node name="TextDisplayPanel" type="VBoxContainer" parent="Overlay/VBoxContainer/HBoxContainer/PanelRight"]
+offset_right = 200.0
+offset_bottom = 646.0
+script = ExtResource( "1_oakir" )
+
+[node name="PanelContainer" type="PanelContainer" parent="Overlay/VBoxContainer/HBoxContainer/PanelRight/TextDisplayPanel"]
+minimum_size = Vector2(0, 400)
+offset_right = 200.0
+offset_bottom = 400.0
+
+[node name="ColorRect" type="ColorRect" parent="Overlay/VBoxContainer/HBoxContainer/PanelRight/TextDisplayPanel/PanelContainer"]
+offset_right = 200.0
+offset_bottom = 400.0
+color = Color(0, 0, 0, 1)
+
+[node name="TextDisplay" type="RichTextLabel" parent="Overlay/VBoxContainer/HBoxContainer/PanelRight/TextDisplayPanel/PanelContainer"]
+offset_right = 200.0
+offset_bottom = 400.0
+text = "Test"
+
+[node name="ClearTextButton" type="Button" parent="Overlay/VBoxContainer/HBoxContainer/PanelRight/TextDisplayPanel"]
+offset_top = 404.0
+offset_right = 200.0
+offset_bottom = 435.0
+action_mode = 0
+text = "Clear Text Display"
+
+[connection signal="pressed" from="Overlay/VBoxContainer/HBoxContainer/PanelRight/TextDisplayPanel/ClearTextButton" to="Overlay/VBoxContainer/HBoxContainer/PanelRight/TextDisplayPanel" method="_on_clear_text_button_pressed"]

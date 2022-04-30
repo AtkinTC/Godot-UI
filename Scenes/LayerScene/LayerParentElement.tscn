@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=3 uid="uid://dh6ccj6m8vq3v"]
+
+[ext_resource type="Script" path="res://Scripts/LayerParentElement.gd" id="1_dq7u7"]
+
+[node name="LayerParentElement" type="Control"]
+minimum_size = Vector2(100, 100)
+offset_right = 100.0
+offset_bottom = 100.0
+script = ExtResource( "1_dq7u7" )
+
+[node name="Background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 1)
+
+[node name="V" type="VBoxContainer" parent="."]
+minimum_size = Vector2(0, 80)
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 90.0
+offset_bottom = 90.0
+
+[node name="TitleLabel" type="Label" parent="V"]
+offset_right = 80.0
+offset_bottom = 26.0
+text = "Test"
+clip_text = true
+max_lines_visible = 1
+
+[node name="LayerParentButton" type="Button" parent="V"]
+minimum_size = Vector2(80, 0)
+offset_top = 30.0
+offset_right = 80.0
+offset_bottom = 61.0
+text = "Button
+"
+
+[connection signal="pressed" from="V/LayerParentButton" to="." method="_on_layer_parent_button_pressed"]

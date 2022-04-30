@@ -1,0 +1,72 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+_global_script_classes=[{
+"base": "Node2D",
+"class": &"BackgroundLayerNode",
+"language": &"GDScript",
+"path": "res://Scripts/BackgroundLayerNode.gd"
+}, {
+"base": "LayerNode",
+"class": &"GridLayerNode",
+"language": &"GDScript",
+"path": "res://Scripts/GridLayerNode.gd"
+}, {
+"base": "Node2D",
+"class": &"LayerNode",
+"language": &"GDScript",
+"path": "res://Scripts/LayerNode.gd"
+}, {
+"base": "Control",
+"class": &"LayerParentElement",
+"language": &"GDScript",
+"path": "res://Scripts/LayerParentElement.gd"
+}, {
+"base": "VBoxContainer",
+"class": &"LayerTab",
+"language": &"GDScript",
+"path": "res://Scripts/LayerTab.gd"
+}, {
+"base": "VBoxContainer",
+"class": &"TextDisplayPanel",
+"language": &"GDScript",
+"path": "res://Scenes/UIScenes/TextDisplayPanel.gd"
+}, {
+"base": "LayerNode",
+"class": &"VerticalLayerNode",
+"language": &"GDScript",
+"path": "res://Scripts/VerticalLayerNode.gd"
+}]
+_global_script_class_icons={
+"BackgroundLayerNode": "",
+"GridLayerNode": "",
+"LayerNode": "",
+"LayerParentElement": "",
+"LayerTab": "",
+"TextDisplayPanel": "",
+"VerticalLayerNode": ""
+}
+
+[application]
+
+config/name="Clicker"
+run/main_scene="res://Scenes/main.tscn"
+config/icon="res://icon.png"
+config/features=PackedStringArray("4.0", "Vulkan Clustered")
+
+[autoload]
+
+LayerManager="*res://Singletons/LayerManager.gd"
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/size/resizable=false
