@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cm31gi0fvoxq1"]
+[gd_scene load_steps=3 format=3 uid="uid://cm31gi0fvoxq1"]
 
 [ext_resource type="Script" path="res://Scenes/LayerUI/LayerTab.gd" id="1_ew8la"]
+[ext_resource type="Theme" uid="uid://cud2hlyn6imko" path="res://Resources/Themes/custom_theme.tres" id="2_udop7"]
 
 [node name="LayerTab" type="VBoxContainer"]
 offset_right = 200.0
@@ -15,6 +16,7 @@ offset_right = 200.0
 offset_bottom = 40.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource( "2_udop7" )
 metadata/_edit_use_custom_anchors = false
 metadata/_edit_layout_mode = 1
 
@@ -43,6 +45,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = ExtResource( "2_udop7" )
+theme_override_font_sizes/font_size = 16
 text = "-
 "
 
@@ -53,6 +57,7 @@ offset_bottom = 36.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
+theme = ExtResource( "2_udop7" )
 theme_override_constants/outline_size = 0
 theme_override_font_sizes/font_size = 16
 text = "TEST TEXT"

@@ -11,8 +11,9 @@ var element_container
 
 @onready var background_color_rect: ColorRect = $Container/Background
 @onready var border_color_rect: ColorRect = $Container/Border
-@onready var title_label: Label = $Container/H/TitleLabel
-@onready var back_button: Button = $Container/H/BackButton
+@onready var title_label: Label = $Container/HeaderRect/H/TitleLabel
+@onready var back_button: Button = $Container/HeaderRect/H/BackButton
+@onready var back_button_filler: Control = $Container/HeaderRect/H/BackButtonFiller
 
 @onready var background_layer_scene : PackedScene = preload("res://Scenes/LayerUI/BackgroundLayerNode.tscn")
 var background_layer : BackgroundLayerNode
@@ -53,9 +54,11 @@ func update_back_button():
 		if(depth == 0):
 			back_button.disabled = true
 			back_button.visible = false
+			back_button_filler.visible = true
 		else:
 			back_button.disabled = false
 			back_button.visible = true
+			back_button_filler.visible = false
 
 func focus_layer():
 	focused = true
@@ -73,7 +76,7 @@ func hide_layer():
 
 func set_as_background(display_depth: int):
 	focused = false
-	position -= Vector2(35,35) * display_depth
+	position -= Vector2(15,15) * display_depth
 	visible = true
 	if(!background_layer):
 		background_layer = background_layer_scene.instantiate()

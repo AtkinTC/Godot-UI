@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://u4g0qiq62qrs"]
+[gd_scene load_steps=3 format=3 uid="uid://u4g0qiq62qrs"]
 
 [ext_resource type="Script" path="res://Scenes/LayerUI/LayerChildButtonElement.gd" id="1_i04k0"]
+[ext_resource type="Theme" uid="uid://cud2hlyn6imko" path="res://Resources/Themes/custom_theme.tres" id="2_8slgo"]
 
 [node name="LayerChildButtonElement" type="Control"]
 minimum_size = Vector2(100, 100)
@@ -32,6 +33,7 @@ minimum_size = Vector2(80, 0)
 offset_top = 30.0
 offset_right = 80.0
 offset_bottom = 61.0
+theme = ExtResource( "2_8slgo" )
 text = "Button
 "
 
