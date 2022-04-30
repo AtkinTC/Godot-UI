@@ -1,5 +1,5 @@
 extends Control
-class_name LayerParentElement
+class_name LayerChildButtonElement
 
 signal open_child_layer(layer_key)
 

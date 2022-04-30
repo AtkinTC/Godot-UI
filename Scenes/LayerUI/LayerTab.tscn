@@ -1,0 +1,74 @@
+[gd_scene load_steps=2 format=3 uid="uid://cm31gi0fvoxq1"]
+
+[ext_resource type="Script" path="res://Scenes/LayerUI/LayerTab.gd" id="1_ew8la"]
+
+[node name="LayerTab" type="VBoxContainer"]
+offset_right = 200.0
+offset_bottom = 40.0
+theme_override_constants/separation = 2
+script = ExtResource( "1_ew8la" )
+metadata/_edit_use_custom_anchors = false
+
+[node name="Panel" type="Panel" parent="."]
+minimum_size = Vector2(0, 40)
+offset_right = 200.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_custom_anchors = false
+metadata/_edit_layout_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="H" type="HBoxContainer" parent="Panel/MarginContainer"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 198.0
+offset_bottom = 38.0
+
+[node name="ExpandContainer" type="Control" parent="Panel/MarginContainer/H"]
+minimum_size = Vector2(20, 0)
+offset_right = 20.0
+offset_bottom = 36.0
+
+[node name="ExpandButton" type="Button" parent="Panel/MarginContainer/H/ExpandContainer"]
+layout_direction = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "-
+"
+
+[node name="Button" type="Button" parent="Panel/MarginContainer/H"]
+offset_left = 24.0
+offset_right = 196.0
+offset_bottom = 36.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 16
+text = "TEST TEXT"
+metadata/_edit_use_custom_anchors = true
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+visible = false
+offset_top = 42.0
+offset_right = 200.0
+offset_bottom = 42.0
+theme_override_constants/margin_left = 20
+
+[node name="V" type="VBoxContainer" parent="MarginContainer"]
+offset_left = 20.0
+offset_right = 200.0
+theme_override_constants/separation = 2
+
+[connection signal="pressed" from="Panel/MarginContainer/H/ExpandContainer/ExpandButton" to="." method="_on_expand_button_pressed"]
+[connection signal="pressed" from="Panel/MarginContainer/H/Button" to="." method="_on_button_pressed"]

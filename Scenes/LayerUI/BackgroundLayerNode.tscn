@@ -1,9 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://xalomb0wopis"]
+[gd_scene load_steps=2 format=3 uid="uid://d03nea2m5jmad"]
 
-[ext_resource type="Script" path="res://Scripts/GridLayerNode.gd" id="1_mvrxy"]
+[ext_resource type="Script" path="res://Scenes/LayerUI/BackgroundLayerNode.gd" id="1_7q0ab"]
 
-[node name="LayerNode" type="Node2D"]
-script = ExtResource( "1_mvrxy" )
+[node name="BackgroundLayerNode" type="Node2D"]
+script = ExtResource( "1_7q0ab" )
 
 [node name="Container" type="Control" parent="."]
 minimum_size = Vector2(400, 400)
@@ -41,33 +41,12 @@ offset_top = -200.0
 offset_right = 200.0
 offset_bottom = 200.0
 
-[node name="H" type="HBoxContainer" parent="Container"]
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="BackButton" type="Button" parent="Container/H"]
-minimum_size = Vector2(30, 30)
-offset_right = 45.0
-offset_bottom = 40.0
-text = "Back"
-
-[node name="TitleLabel" type="Label" parent="Container/H"]
+[node name="TitleLabel" type="Label" parent="Container"]
 modulate = Color(0, 0, 0, 1)
 offset_left = 49.0
 offset_top = 7.0
 offset_right = 140.0
 offset_bottom = 33.0
 text = "TEST_LAYER"
-
-[node name="Grid" type="GridContainer" parent="Container"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -154.0
-offset_top = -154.0
-offset_right = 154.0
-offset_bottom = 154.0
-columns = 3
-
-[connection signal="pressed" from="Container/H/BackButton" to="." method="_on_back_button_pressed"]
+metadata/_edit_layout_mode = 0
+metadata/_edit_use_custom_anchors = false

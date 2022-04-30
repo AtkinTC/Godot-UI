@@ -14,7 +14,7 @@ var element_container
 @onready var title_label: Label = $Container/H/TitleLabel
 @onready var back_button: Button = $Container/H/BackButton
 
-@onready var background_layer_scene : PackedScene = preload("res://Scenes/LayerScene/BackgroundLayer.tscn")
+@onready var background_layer_scene : PackedScene = preload("res://Scenes/LayerUI/BackgroundLayerNode.tscn")
 var background_layer : BackgroundLayerNode
 
 var display_title := "DISPLAY_TITLE"

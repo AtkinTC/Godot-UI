@@ -1,12 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://dh6ccj6m8vq3v"]
+[gd_scene load_steps=2 format=3 uid="uid://u4g0qiq62qrs"]
 
-[ext_resource type="Script" path="res://Scripts/LayerParentElement.gd" id="1_dq7u7"]
+[ext_resource type="Script" path="res://Scenes/LayerUI/LayerChildButtonElement.gd" id="1_i04k0"]
 
-[node name="LayerParentElement" type="Control"]
+[node name="LayerChildButtonElement" type="Control"]
 minimum_size = Vector2(100, 100)
 offset_right = 100.0
 offset_bottom = 100.0
-script = ExtResource( "1_dq7u7" )
+script = ExtResource( "1_i04k0" )
 
 [node name="Background" type="ColorRect" parent="."]
 anchor_right = 1.0

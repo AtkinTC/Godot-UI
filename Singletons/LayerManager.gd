@@ -1,10 +1,9 @@
 extends Node
 
-var grid_layer_scene: PackedScene = load("res://Scenes/LayerScene/GridLayer.tscn")
-var vertical_layer_scene: PackedScene = load("res://Scenes/LayerScene/VerticalLayer.tscn")
-var layer_parent_element_scene: PackedScene = load("res://Scenes/LayerScene/LayerParentElement.tscn")
-
-var layer_tab_scene: PackedScene = load("res://Scenes/LayerScene/LayerTab.tscn")
+var grid_layer_scene: PackedScene = load("res://Scenes/LayerUI/GridLayerNode.tscn")
+var vertical_layer_scene: PackedScene = load("res://Scenes/LayerUI/VerticalLayerNode.tscn")
+var layer_child_button_element_scene: PackedScene = load("res://Scenes/LayerUI/LayerChildButtonElement.tscn")
+var layer_tab_scene: PackedScene = load("res://Scenes/LayerUI/LayerTab.tscn")
 
 var layer_types := {
 	"" : grid_layer_scene,
@@ -14,7 +13,7 @@ var layer_types := {
 
 var layers_dict  := {
 	"root" : {
-		"display_title" : "root"
+		"display_title" : "HOME"
 	},
 	"layer_1" : {
 		"display_title" : "Layer 1",
@@ -57,9 +56,16 @@ var layers_graph := {}
 var root_layer_key := "root"
 
 func assemble_layers_data():
+	assert(layers_dict.has(root_layer_key)) ## root layer must be defined
+	
 	layers_graph = {}
-	var potential_top_layers := layers_dict.keys()
-	potential_top_layers.erase(root_layer_key)
+	var unparented_layers := layers_dict.keys()
+	unparented_layers.erase(root_layer_key)
+	
+	# create root node
+	var root : Dictionary = layers_graph.get(root_layer_key, {})
+	root["depth"] = 0
+	layers_graph[root_layer_key] = root
 	
 	# graph out connections between layers
 	for layer_key in layers_dict:
@@ -69,19 +75,17 @@ func assemble_layers_data():
 		layers_graph[layer_key] = layer
 		
 		for child_key in layer["child_layers"]:
-			potential_top_layers.erase(child_key)
+			unparented_layers.erase(child_key)
 			var child_layer = layers_graph.get(child_key, {})
 			child_layer["parent_layer"] = layer_key
 			layers_graph[child_key] = child_layer
 	
-	var root : Dictionary = layers_graph.get(root_layer_key, {})
-	root["child_layers"] = potential_top_layers
-	root["depth"] = 0
-	layers_graph[root_layer_key] = root
-	
-	for child_key in potential_top_layers:
+	# all unparented nodes are added to root as children
+	root["child_layers"] = unparented_layers
+	for child_key in unparented_layers:
 		layers_graph[child_key]["parent_layer"] = root_layer_key
 	
+	# traverse down from root layers to set depth values
 	var layer_stack := [root_layer_key]
 	while layer_stack.size() > 0:
 		var layer_key : String = layer_stack.pop_back()
@@ -103,7 +107,7 @@ func assemble_layer_nodes(root_node):
 			layer.visible = false
 		
 		for child_key in layers_graph[layer_key]["child_layers"]:
-			var child_element : LayerParentElement = layer_parent_element_scene.instantiate()
+			var child_element : LayerChildButtonElement = layer_child_button_element_scene.instantiate()
 			layer.add_element(child_element)
 			child_element.set_display_title(layers_dict[child_key]["display_title"])
 			child_element.set_child_layer_key(child_key)

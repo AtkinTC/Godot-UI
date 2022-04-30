@@ -1,9 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://ctonlsvrdhum6"]
+[gd_scene load_steps=2 format=3 uid="uid://dsm7n3hntw58i"]
 
-[ext_resource type="Script" path="res://Scripts/VerticalLayerNode.gd" id="1_xml1x"]
+[ext_resource type="Script" path="res://Scenes/LayerUI/GridLayerNode.gd" id="1_2ig3n"]
 
-[node name="LayerNode" type="Node2D"]
-script = ExtResource( "1_xml1x" )
+[node name="GridLayerNode" type="Node2D"]
+script = ExtResource( "1_2ig3n" )
 
 [node name="Container" type="Control" parent="."]
 minimum_size = Vector2(400, 400)
@@ -59,7 +59,7 @@ offset_right = 140.0
 offset_bottom = 33.0
 text = "TEST_LAYER"
 
-[node name="VBox" type="VBoxContainer" parent="Container"]
+[node name="Grid" type="GridContainer" parent="Container"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -68,5 +68,6 @@ offset_left = -154.0
 offset_top = -154.0
 offset_right = 154.0
 offset_bottom = 154.0
+columns = 3
 
 [connection signal="pressed" from="Container/H/BackButton" to="." method="_on_back_button_pressed"]

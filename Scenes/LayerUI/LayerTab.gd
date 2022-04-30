@@ -7,8 +7,8 @@ var layer_key : String
 
 var display_title := "DISPLAY_TITLE"
 
-@onready var button: Button = $Panel/H/Button
-@onready var expand_button: Button = $Panel/H/ExpandContainer/ExpandButton
+@onready var button: Button = $Panel/MarginContainer/H/Button
+@onready var expand_button: Button = $Panel/MarginContainer/H/ExpandContainer/ExpandButton
 @onready var margin_container: MarginContainer = $MarginContainer
 @onready var child_container: VBoxContainer = $MarginContainer/V
 
