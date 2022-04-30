@@ -76,7 +76,6 @@ func assemble_layers_data():
 	
 	var root : Dictionary = layers_graph.get(root_layer_key, {})
 	root["child_layers"] = potential_top_layers
-	root["parent_layer"] = ""
 	root["depth"] = 0
 	layers_graph[root_layer_key] = root
 	
@@ -133,19 +132,34 @@ func focus_layer(_layer_key: String):
 	var display_depth := 0
 	var layer_key = _layer_key
 	while(layer_key):
+		#LayerNode
 		var layer_node : LayerNode = layer_nodes[layer_key]
 		if(display_depth == 0):
 			layer_node.focus_layer()
-		if(display_depth != 0):
+		else:
 			layer_node.set_as_background(display_depth)
+		
+		#LayerTab
+		if(layer_key != root_layer_key):
+			var layer_tab : LayerTab = layer_tabs[layer_key]
+			if(display_depth == 0):
+				layer_tab.focus_layer()
+			else:
+				layer_tab.expand_child_container()
+		
 		layer_key = layers_graph[layer_key].get("parent_layer", null)
 		display_depth += 1
-	
 
 func close_all_layers():
 	for layer_key in layer_nodes.keys():
+		#LayerNode
 		var layer_node : LayerNode = layer_nodes[layer_key]
 		layer_node.hide_layer()
+		
+		#LayerTab
+		if(layer_key != root_layer_key):
+			var layer_tab : LayerTab = layer_tabs[layer_key]
+			layer_tab.unfocus_layer()
 
 func get_layer_parent_key_from_key(layer_key: String):
 	return layers_graph.get(layer_key, {}).get("parent_layer", "")
@@ -155,6 +169,9 @@ func get_layer_child_keys_from_key(layer_key: String):
 
 func get_layer_node_from_key(layer_key: String):
 	return layer_nodes.get(layer_key, null)
+
+func get_layer_tab_from_key(layer_key: String):
+	return layer_tabs.get(layer_key, null)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

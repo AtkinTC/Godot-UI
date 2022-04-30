@@ -1,6 +1,8 @@
 extends VBoxContainer
 class_name LayerTab
 
+var focused := false
+
 var layer_key : String
 
 var display_title := "DISPLAY_TITLE"
@@ -38,13 +40,31 @@ func update_display_title():
 	if(button):
 		button.text = display_title
 
+func focus_layer():
+	focused = true
+
+func unfocus_layer():
+	focused = false
+
+func expand_child_container():
+	margin_container.visible = true
+	expand_button.text = "-"
+
+func collapse_child_container():
+	margin_container.visible = false
+	expand_button.text = "+"
+	
+	#recursively collapse child tabs as well
+	var child_keys : Array = LayerManager.get_layer_child_keys_from_key(layer_key)
+	for child_key in child_keys:
+		var child_tab : LayerTab = LayerManager.get_layer_tab_from_key(child_key)
+		child_tab.collapse_child_container()
+
 func toggle_child_container():
 	if(margin_container.visible):
-		margin_container.visible = false
-		expand_button.text = "+"
+		collapse_child_container()
 	else:
-		margin_container.visible = true
-		expand_button.text = "-"
+		expand_child_container()
 
 func _on_button_pressed():
 	LayerManager.focus_layer(layer_key)
