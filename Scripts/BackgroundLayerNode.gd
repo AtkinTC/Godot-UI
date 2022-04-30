@@ -1,7 +1,6 @@
 extends Node2D
 class_name BackgroundLayerNode
 
-@onready var background_image_node: Sprite2D = $BackgroundImage
 var background_image: Image
 
 @onready var background_color_rect: ColorRect = $Container/Background
@@ -10,7 +9,6 @@ var background_image: Image
 
 var display_title := "DISPLAY_TITLE"
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	update_title_label()
 

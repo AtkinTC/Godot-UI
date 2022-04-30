@@ -7,16 +7,13 @@ signal open_child_layer(layer_key)
 @onready var title_label: Label = $V/TitleLabel
 @onready var layer_parent_button: Button = $V/LayerParentButton
 
-#var child_layer: LayerNode
 var parent_layer: LayerNode
 var child_layer_key: String
 
 var display_title = "DISPLAY_TITLE"
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	update_title_label()
-	#update_child_layer()
 
 func set_display_title(title: String):
 	display_title = title

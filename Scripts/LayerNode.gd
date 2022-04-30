@@ -3,15 +3,11 @@ class_name LayerNode
 
 var layer_key : String
 
-#var parent_layer : LayerNode
 var focused : bool = false
 
 var depth: int = 0
 
 var element_container
-
-@onready var background_image_node: Sprite2D = $BackgroundImage
-var background_image: Image
 
 @onready var background_color_rect: ColorRect = $Container/Background
 @onready var border_color_rect: ColorRect = $Container/Border
@@ -23,7 +19,6 @@ var background_layer : BackgroundLayerNode
 
 var display_title := "DISPLAY_TITLE"
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	update_back_button()
 	update_title_label()
@@ -41,13 +36,6 @@ func set_display_title(title: String):
 func update_title_label():
 	if(title_label):
 		title_label.text = display_title
-
-func set_background_image(_background_image: Image):
-	background_image = _background_image
-#	if(background_image_node != null):
-#		var new_texture = ImageTexture.new()
-#		new_texture.create_from_image(_background_image)
-#		background_image_node.set_texture(new_texture)
 
 func add_element(element: Control):
 	if("set_parent_layer" in element):
@@ -70,18 +58,21 @@ func update_back_button():
 			back_button.visible = true
 
 func focus_layer():
+	focused = true
 	position = Vector2.ZERO
 	visible = true
 	if(background_layer):
 		background_layer.visible = false
 
 func hide_layer():
+	focused = false
 	position = Vector2.ZERO
 	visible = false
 	if(background_layer):
 		background_layer.visible = false
 
 func set_as_background(display_depth: int):
+	focused = false
 	position -= Vector2(35,35) * display_depth
 	visible = true
 	if(!background_layer):
