@@ -7,8 +7,9 @@ var focused : bool = false
 
 var depth: int = 0
 
-var element_container
+var content_container: LayerContentContainer
 
+@onready var container: Control = $Container
 @onready var background_color_rect: ColorRect = $Container/Background
 @onready var border_color_rect: ColorRect = $Container/Border
 @onready var title_label: Label = $Container/HeaderRect/H/TitleLabel
@@ -24,9 +25,6 @@ func _ready():
 	update_back_button()
 	update_title_label()
 
-func set_element_container(_element_container):
-	element_container = _element_container
-
 func set_layer_key(_layer_key):
 	layer_key = _layer_key
 
@@ -38,12 +36,17 @@ func update_title_label():
 	if(title_label):
 		title_label.text = display_title
 
+func set_content_container(_content_container: LayerContentContainer):
+	content_container = _content_container
+	content_container.set_parent_layer(self)
+	if(!container):
+		container = get_node("Container")
+	container.add_child(content_container)
+
 func add_element(element: Control):
 	if("set_parent_layer" in element):
 		element.set_parent_layer(self)
-	element_container.add_child(element)
-	if("depth" in element):
-		element.depth = depth
+	content_container.add_child_element(element)
 	
 func set_depth(_depth: int):
 	depth = _depth

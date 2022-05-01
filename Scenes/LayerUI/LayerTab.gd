@@ -2,11 +2,13 @@ extends VBoxContainer
 class_name LayerTab
 
 var focused := false
+var expanded := false
 
 var layer_key : String
 
 var display_title := "DISPLAY_TITLE"
 
+@onready var panel: Panel = $Panel
 @onready var button: Button = $Panel/MarginContainer/H/Button
 @onready var expand_button: Button = $Panel/MarginContainer/H/ExpandContainer/ExpandButton
 @onready var margin_container: MarginContainer = $MarginContainer
@@ -16,6 +18,7 @@ var display_title := "DISPLAY_TITLE"
 func _ready():
 	update_child_container()
 	update_display_title()
+	update_focus()
 
 func set_layer_key(_layer_key):
 	layer_key = _layer_key
@@ -29,7 +32,12 @@ func update_child_container():
 		margin_container.visible = false
 		expand_button.visible = false
 	else:
-		margin_container.visible = true
+		if(expanded):
+			margin_container.visible = true
+			expand_button.text = "-"
+		else:
+			margin_container.visible = false
+			expand_button.text = "+"
 		expand_button.visible = true
 
 func set_display_title(title: String):
@@ -42,17 +50,33 @@ func update_display_title():
 
 func focus_layer():
 	focused = true
+	update_focus()
 
 func unfocus_layer():
 	focused = false
+	update_focus()
+
+func update_focus():
+	if(!panel):
+		panel = get_node("Panel")
+	if(focused):
+		var style = panel.get_theme_stylebox("panel_focused", "Panel")
+		panel.add_theme_stylebox_override("panel", style)
+	else:
+		var style = panel.get_theme_stylebox("panel_unfocused", "Panel")
+		panel.add_theme_stylebox_override("panel", style)
 
 func expand_child_container():
+	expanded = true
 	margin_container.visible = true
 	expand_button.text = "-"
+	update_child_container()
 
 func collapse_child_container():
+	expanded = false
 	margin_container.visible = false
 	expand_button.text = "+"
+	update_child_container()
 	
 	#recursively collapse child tabs as well
 	var child_keys : Array = LayerManager.get_layer_child_keys_from_key(layer_key)
@@ -61,7 +85,7 @@ func collapse_child_container():
 		child_tab.collapse_child_container()
 
 func toggle_child_container():
-	if(margin_container.visible):
+	if(expanded):
 		collapse_child_container()
 	else:
 		expand_child_container()

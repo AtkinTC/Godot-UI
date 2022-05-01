@@ -5,10 +5,20 @@ var vertical_layer_scene: PackedScene = load("res://Scenes/LayerUI/VerticalLayer
 var layer_child_button_element_scene: PackedScene = load("res://Scenes/LayerUI/LayerChildButtonElement.tscn")
 var layer_tab_scene: PackedScene = load("res://Scenes/LayerUI/LayerTab.tscn")
 
+var base_layer_scene: PackedScene = load("res://Scenes/LayerUI/LayerNode.tscn")
+var grid_layer_content_container_scene: PackedScene = load("res://Scenes/LayerUI/GridLayerContentContainer.tscn")
+var vbox_layer_content_container_scene: PackedScene = load("res://Scenes/LayerUI/VBoxLayerContentContainer.tscn")
+
 var layer_types := {
 	"" : grid_layer_scene,
 	"grid" : grid_layer_scene,
 	"vertical" : vertical_layer_scene
+}
+
+var content_container_types := {
+	"" : grid_layer_content_container_scene,
+	"grid" : grid_layer_content_container_scene,
+	"vertical" : vbox_layer_content_container_scene
 }
 
 var layers_dict  := {
@@ -96,10 +106,15 @@ func assemble_layers_data():
 
 func assemble_layer_nodes(root_node):
 	for layer_key in layers_dict:
-		var layer: LayerNode = layer_types[layers_dict[layer_key].get("layer_type", "")].instantiate()
+		#var layer: LayerNode = layer_types[layers_dict[layer_key].get("layer_type", "")].instantiate()
+		var layer: LayerNode = base_layer_scene.instantiate()
 		layer.set_display_title(layers_dict[layer_key]["display_title"])
 		layer.set_depth(layers_graph[layer_key]["depth"])
 		layer.set_layer_key(layer_key)
+		
+		var layer_content_container: LayerContentContainer = content_container_types[layers_dict[layer_key].get("layer_type", "")].instantiate()
+		layer.set_content_container(layer_content_container)
+		
 		root_node.add_child(layer)
 		layer_nodes[layer_key] = layer
 		
@@ -117,6 +132,7 @@ func assemble_layer_tabs(root_node):
 	var root_tab: LayerTab = layer_tab_scene.instantiate()
 	root_tab.set_display_title(layers_dict[root_layer_key]["display_title"])
 	root_tab.set_layer_key(root_layer_key)
+	root_tab.focus_layer()
 	layer_tabs[root_layer_key] = root_tab
 	root_node.add_child(root_tab)
 	
@@ -152,26 +168,24 @@ func focus_layer(_layer_key: String):
 			layer_node.set_as_background(display_depth)
 		
 		#LayerTab
-		if(layer_key != root_layer_key):
-			var layer_tab : LayerTab = layer_tabs[layer_key]
-			if(display_depth == 0):
-				layer_tab.focus_layer()
-			else:
-				layer_tab.expand_child_container()
+		var layer_tab : LayerTab = layer_tabs[layer_key]
+		if(display_depth == 0):
+			layer_tab.focus_layer()
+		else:
+			layer_tab.expand_child_container()
 		
 		layer_key = layers_graph[layer_key].get("parent_layer", null)
 		display_depth += 1
 
 func close_all_layers():
-	for layer_key in layer_nodes.keys():
+	for layer_key in layers_dict.keys():
 		#LayerNode
 		var layer_node : LayerNode = layer_nodes[layer_key]
 		layer_node.hide_layer()
 		
 		#LayerTab
-		if(layer_key != root_layer_key):
-			var layer_tab : LayerTab = layer_tabs[layer_key]
-			layer_tab.unfocus_layer()
+		var layer_tab : LayerTab = layer_tabs[layer_key]
+		layer_tab.unfocus_layer()
 
 func get_layer_parent_key_from_key(layer_key: String):
 	return layers_graph.get(layer_key, {}).get("parent_layer", "")

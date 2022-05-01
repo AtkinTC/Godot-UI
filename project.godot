@@ -14,15 +14,15 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://Scenes/LayerUI/BackgroundLayerNode.gd"
 }, {
-"base": "LayerNode",
-"class": &"GridLayerNode",
-"language": &"GDScript",
-"path": "res://Scenes/LayerUI/GridLayerNode.gd"
-}, {
 "base": "Control",
 "class": &"LayerChildButtonElement",
 "language": &"GDScript",
 "path": "res://Scenes/LayerUI/LayerChildButtonElement.gd"
+}, {
+"base": "Control",
+"class": &"LayerContentContainer",
+"language": &"GDScript",
+"path": "res://Scenes/LayerUI/LayerContentContainer.gd"
 }, {
 "base": "Node2D",
 "class": &"LayerNode",
@@ -38,20 +38,14 @@ _global_script_classes=[{
 "class": &"TextDisplayPanel",
 "language": &"GDScript",
 "path": "res://Scenes/UIScenes/TextDisplayPanel.gd"
-}, {
-"base": "LayerNode",
-"class": &"VerticalLayerNode",
-"language": &"GDScript",
-"path": "res://Scenes/LayerUI/VerticalLayerNode.gd"
 }]
 _global_script_class_icons={
 "BackgroundLayerNode": "",
-"GridLayerNode": "",
 "LayerChildButtonElement": "",
+"LayerContentContainer": "",
 "LayerNode": "",
 "LayerTab": "",
-"TextDisplayPanel": "",
-"VerticalLayerNode": ""
+"TextDisplayPanel": ""
 }
 
 [application]
